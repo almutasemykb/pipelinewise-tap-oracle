@@ -122,7 +122,10 @@ if ORA_PYTHON_DRIVER_TYPE == OracleDriverType.CX_ORACLE:
 elif ORA_PYTHON_DRIVER_TYPE == OracleDriverType.THICK:
     import oracledb
     LOGGER.info("Running in thick mode")
-    oracledb.init_oracle_client()
+    if os.getenv('ORA_PYTHON_INSTANT_CLIENT_PATH'):
+        oracledb.init_oracle_client(os.getenv('ORA_PYTHON_INSTANT_CLIENT_PATH')) 
+    else:
+        oracledb.init_oracle_client()
 elif ORA_PYTHON_DRIVER_TYPE == OracleDriverType.THIN:
     import oracledb
     SQLNET_ORA_CONFIG = OracleNetConfig.from_env()
